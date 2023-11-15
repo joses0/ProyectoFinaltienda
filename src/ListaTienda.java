@@ -32,5 +32,18 @@ public class ListaTienda {
         }
         return listaProductos;
     }
+
+    public Producto obtenerProductoPorNombre(String nombre) {
+        Nodo actual = cabeza;
+        while (actual != null) {
+            if (actual.getProducto().getNombre().equals(nombre)) {
+                return actual.getProducto();
+            }
+            actual = actual.getSiguiente();
+        }
+        return null; // Producto no encontrado
+    }
+
+    // Otros métodos según sea necesario
 }
 

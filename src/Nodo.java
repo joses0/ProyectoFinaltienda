@@ -19,5 +19,9 @@ public class Nodo {
     public void setSiguiente(Nodo siguiente) {
         this.siguiente = siguiente;
     }
+
+    // Otros getters y setters según sea necesario
 }
+
+
 
