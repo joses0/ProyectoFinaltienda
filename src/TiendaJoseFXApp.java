@@ -29,8 +29,11 @@ public class TiendaJoseFXApp extends Application {
 
         // Mostrar la lista de productos
         ListView<String> productListView = new ListView<>();
-        listaTienda.obtenerListaProductos().forEach(producto -> productListView.getItems().add(producto));
-        root.getChildren().add(productListView);
+listaTienda.obtenerListaProductos().forEach(producto -> {
+    productListView.getItems().add(producto);
+    System.out.println(producto); // Agrega esto para imprimir los productos en la consola
+});
+root.getChildren().add(productListView);
 
         // Campo de usuario y contraseña
         TextField usernameField = new TextField();
@@ -58,8 +61,11 @@ public class TiendaJoseFXApp extends Application {
     Button addToCartButton = new Button("Agregar al Carrito");
     addToCartButton.setOnAction(e -> {
         String selectedProductName = productListView.getSelectionModel().getSelectedItem();
+        System.out.println("Selected Product Name: " + selectedProductName);
+
         if (selectedProductName != null && usuarioActual != null && carrito != null) {
             Producto selectedProduct = listaTienda.obtenerProductoPorNombre(selectedProductName);
+            System.out.println("Selected Product Object: " + selectedProduct);
 
             if (selectedProduct != null) {
                 carrito.agregarProducto(selectedProduct);
@@ -72,8 +78,6 @@ public class TiendaJoseFXApp extends Application {
         }
     });
     root.getChildren().add(addToCartButton);
-
-
 
 // Botón para ver y gestionar el carrito
     Button viewCartButton = new Button("Ver Carrito");

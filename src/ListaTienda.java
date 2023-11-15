@@ -27,16 +27,16 @@ public class ListaTienda {
     }
 
     public List<String> obtenerListaProductos() {
-        List<String> listaProductos = new ArrayList<>();
-        Nodo actual = cabeza;
-        while (actual != null) {
-            listaProductos.add("Producto: " + actual.getProducto().getNombre() +
-                    ", Precio: " + actual.getProducto().getPrecio() +
-                    ", Categoría: " + actual.getProducto().getCategoria());
-            actual = actual.getSiguiente();
-        }
-        return listaProductos;
+    List<String> listaProductos = new ArrayList<>();
+    Nodo actual = cabeza;
+    while (actual != null) {
+        listaProductos.add(actual.getProducto().getNombre());  
+        actual = actual.getSiguiente();
     }
+    return listaProductos;
+}
+
+
 
     public Producto obtenerProductoPorNombre(String nombre) {
         Nodo actual = cabeza;
@@ -48,6 +48,7 @@ public class ListaTienda {
         }
         return null; // Producto no encontrado
     }
+    
 
     // Otros métodos según sea necesario
     public void eliminarProductos(List<Producto> productosAEliminar) {
@@ -69,5 +70,7 @@ public class ListaTienda {
                 actual = actual.getSiguiente();
             }
         }
+        
     }
+    
 }
