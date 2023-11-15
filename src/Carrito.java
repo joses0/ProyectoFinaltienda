@@ -1,4 +1,3 @@
-/// Carrito.java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +35,6 @@ public class Carrito {
             System.out.println("Error: El carrito está vacío.");
         }
     }
-
-    // Otros métodos según sea necesario
 }
+
+

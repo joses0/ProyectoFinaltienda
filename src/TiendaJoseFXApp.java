@@ -1,3 +1,4 @@
+import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -54,63 +55,100 @@ public class TiendaJoseFXApp extends Application {
         root.getChildren().add(loginButton);
 
         // Botón para agregar producto al carrito
-        Button addToCartButton = new Button("Agregar al Carrito");
-        addToCartButton.setOnAction(e -> {
-            String selectedProductName = productListView.getSelectionModel().getSelectedItem();
-            if (selectedProductName != null && usuarioActual != null && carrito != null) {
-                Producto selectedProduct = listaTienda.obtenerProductoPorNombre(selectedProductName);
+    Button addToCartButton = new Button("Agregar al Carrito");
+    addToCartButton.setOnAction(e -> {
+        String selectedProductName = productListView.getSelectionModel().getSelectedItem();
+        if (selectedProductName != null && usuarioActual != null && carrito != null) {
+            Producto selectedProduct = listaTienda.obtenerProductoPorNombre(selectedProductName);
 
+            if (selectedProduct != null) {
                 carrito.agregarProducto(selectedProduct);
                 mostrarMensaje("Producto agregado al carrito.");
             } else {
-                mostrarMensaje("Error: Debes iniciar sesión para agregar productos al carrito.");
+                mostrarMensaje("Error: Producto no encontrado en la tienda.");
             }
+        } else {
+            mostrarMensaje("Error: Debes iniciar sesión para agregar productos al carrito.");
+        }
+    });
+    root.getChildren().add(addToCartButton);
+
+
+
+// Botón para ver y gestionar el carrito
+    Button viewCartButton = new Button("Ver Carrito");
+    viewCartButton.setOnAction(e -> {
+        if (usuarioActual != null && carrito != null) {
+            mostrarCarrito(productListView);  // Pasar productListView como parámetro
+        } else {
+            mostrarMensaje("Error: Debes iniciar sesión para ver y gestionar el carrito.");
+        }
+    });
+    root.getChildren().add(viewCartButton);
+
+
+        // Botón para cerrar sesión
+        Button logoutButton = new Button("Cerrar Sesión");
+        logoutButton.setOnAction(e -> {
+            usuarioActual = null;
+            carrito = null;
+            mostrarMensaje("Sesión cerrada con éxito.");
         });
-        root.getChildren().add(addToCartButton);
-
-        // Botón para ver y gestionar el carrito
-        Button viewCartButton = new Button("Ver Carrito");
-        viewCartButton.setOnAction(e -> {
-            if (usuarioActual != null && carrito != null) {
-                Stage cartStage = new Stage();
-                cartStage.setTitle("Carrito de Compras");
-                VBox cartRoot = new VBox(10);
-                Scene cartScene = new Scene(cartRoot, 300, 200);
-
-                ListView<String> cartListViewInCartStage = new ListView<>();
-                carrito.getProductos().forEach(producto -> cartListViewInCartStage.getItems().add(producto.getNombre()));
-
-                Label totalLabel = new Label("Total: $" + carrito.calcularTotal());
-
-                // Botón para realizar el pedido
-                Button checkoutButton = new Button("Realizar Pedido");
-                checkoutButton.setOnAction(event -> {
-                    carrito.realizarPedido();
-                    cartListViewInCartStage.getItems().clear();
-                    totalLabel.setText("Total: $" + carrito.calcularTotal());
-                    mostrarMensaje("Pedido realizado con éxito.");
-                });
-
-                cartRoot.getChildren().addAll(new Label("Productos en el Carrito:"), cartListViewInCartStage, totalLabel, checkoutButton);
-
-                cartStage.setScene(cartScene);
-                cartStage.show();
-            } else {
-                mostrarMensaje("Error: Debes iniciar sesión para ver y gestionar el carrito.");
-            }
-        });
-        root.getChildren().add(viewCartButton);
+        root.getChildren().add(logoutButton);
 
         primaryStage.setTitle("TiendaJose JavaFX");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void mostrarMensaje(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Mensaje");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
+  private void mostrarCarrito(ListView<String> productListView) {
+    Stage cartStage = new Stage();
+    cartStage.setTitle("Carrito de Compras");
+    VBox cartRoot = new VBox(10);
+    Scene cartScene = new Scene(cartRoot, 300, 200);
+
+    ListView<String> cartListView = new ListView<>();
+    carrito.getProductos().forEach(producto -> cartListView.getItems().add(producto.getNombre()));
+
+    Label totalLabel = new Label("Total: $" + carrito.calcularTotal());
+
+    // Botón para realizar el pedido
+    Button checkoutButton = new Button("Realizar Pedido");
+    checkoutButton.setOnAction(event -> {
+        try {
+            carrito.realizarPedido();
+            // Eliminar los productos del carrito de la lista de productos
+            carrito.getProductos().forEach(producto -> listaTienda.eliminarProductos(List.of(producto)));
+
+            cartListView.getItems().clear(); // Limpiar la lista
+            totalLabel.setText("Total: $" + carrito.calcularTotal());
+
+            // Usar Alert para mostrar el mensaje
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Pedido Realizado");
+            alert.setHeaderText(null);
+            alert.setContentText("Pedido realizado con éxito.");
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace(); // Manejar la excepción de manera adecuada en tu aplicación
+        }
+    });
+
+    cartRoot.getChildren().addAll(new Label("Productos en el Carrito:"), cartListView, totalLabel, checkoutButton);
+
+    cartStage.setScene(cartScene);
+    cartStage.show();
+}
+
+
+private void mostrarMensaje(String mensaje) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Mensaje");
+    alert.setHeaderText(null);
+    alert.setContentText(mensaje);
+    alert.showAndWait();
+}
+
+
+
 }
