@@ -1,35 +1,29 @@
 public class Usuario {
-    private String username;
-    private String password;
-    private String rol;
+    private String nombreUsuario;
+    private String contraseña;
 
-    Usuario(String username, String password, String rol) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Usuario(String nombreUsuario, String contraseña) {
+        this.nombreUsuario = nombreUsuario;
+        this.contraseña = contraseña;
     }
 
-    // Constructor, getters y setters...
+    // Getters y setters...
 
-    public String getUsername() {
-        return username;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
-    public String getPassword() {
-        return password;
+    public String getContraseña() {
+        return contraseña;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
+    
+    
 }

@@ -1,41 +1,72 @@
+ import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+
 public class Producto {
-    private String nombre;
-    private double precio;
-    private String descripcion;
-    private String categoria;
+    private String idProducto;
+    private String nomProducto;
+    private String FechaLote;
+    private String FechaVence;
+    private double precioU;
 
-    // Constructor, getters y setters...
-
-    public String getNombre() {
-        return nombre;
+    public Producto(String idProducto, String nomProducto, String FechaLote, String FechaVence, double precioU) {
+        this.idProducto = idProducto;
+        this.nomProducto = nomProducto;
+        this.FechaLote = FechaLote;
+        this.FechaVence = FechaVence;
+        this.precioU = precioU;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    // Getters y Setters
+    public String getIdProducto() {
+        return idProducto;
     }
 
-    public double getPrecio() {
-        return precio;
+    public void setIdProducto(String idProducto) {
+        this.idProducto = idProducto;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public String getNomProducto() {
+        return nomProducto;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public void setNomProducto(String nomProducto) {
+        this.nomProducto = nomProducto;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public String getFechaLote() {
+        return FechaLote;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public void setFechaLote(String FechaLote) {
+        this.FechaLote = FechaLote;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public String getFechaVence() {
+        return FechaVence;
     }
+
+    public void setFechaVence(String FechaVence) {
+        this.FechaVence = FechaVence;
+    }
+
+    public double getPrecioU() {
+        return precioU;
+    }
+
+    public void setPrecioU(double precioU) {
+        this.precioU = precioU;
+    }
+    @Override
+public String toString() {
+    return "Producto{" +
+            "id='" + idProducto + '\'' +
+            ", nombre='" + nomProducto + '\'' +
+            ", fechaLote='" + FechaLote + '\'' +
+            ", fechaVence='" + FechaVence + '\'' +
+            ", precioUnitario=" + precioU +
+            '}';
+}
+
     
 }

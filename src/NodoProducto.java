@@ -1,9 +1,9 @@
-// Nodo.java
-public class Nodo {
+public class NodoProducto {
     private Producto producto;
-    private Nodo siguiente;
+    NodoProducto siguiente;
+    NodoProducto siguienente;
 
-    public Nodo(Producto producto) {
+    public NodoProducto(Producto producto) {
         this.producto = producto;
         this.siguiente = null;
     }
@@ -12,16 +12,15 @@ public class Nodo {
         return producto;
     }
 
-    public Nodo getSiguiente() {
+    public NodoProducto getSiguiente() {
         return siguiente;
     }
 
-    public void setSiguiente(Nodo siguiente) {
+    public void setSiguiente(NodoProducto siguiente) {
         this.siguiente = siguiente;
     }
-
-    // Otros getters y setters según sea necesario
 }
+
 
 
 
