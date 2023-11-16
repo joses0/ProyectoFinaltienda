@@ -1,28 +1,45 @@
-// ListaUsuarios.java
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
 
 public class ListaUsuarios {
-    private List<Usuario> usuarios;
+    private Connection connection;
 
-    public ListaUsuarios() {
-        this.usuarios = new ArrayList<>();
-        // Agregar usuarios de ejemplo
-        usuarios.add(new Usuario("cliente1", "1234", Rol.CLIENTE));
-        usuarios.add(new Usuario("admin", "admin", Rol.ADMIN));
+    public ListaUsuarios(Connection connection) {
+        this.connection = connection;
+        crearTablaUsuarios(); // Llamamos a un método para crear la tabla si no existe
     }
 
     public Usuario autenticarUsuario(String username, String password) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getUsername().equals(username) && usuario.verificarContrasena(password)) {
-                return usuario;
+        try {
+            String sql = "SELECT * FROM usuarios WHERE username = ? AND password = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, username);
+                statement.setString(2, password);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String rol = resultSet.getString("rol");
+                        return new Usuario(username, password, rol);
+                    }
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null; // Usuario no encontrado o contraseña incorrecta
-    }
-    public void agregarUsuario(Usuario usuario) {
-        usuarios.add(usuario);
+
+        return null; // Usuario no encontrado
     }
 
-    // Otros métodos según sea necesario
+    private void crearTablaUsuarios() {
+        try {
+            String sql = "CREATE TABLE IF NOT EXISTS usuarios (" +
+                    "username VARCHAR(255) PRIMARY KEY," +
+                    "password VARCHAR(255)," +
+                    "rol VARCHAR(255))";
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate(sql);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

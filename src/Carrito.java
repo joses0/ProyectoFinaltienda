@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Carrito {
-    private List<Producto> productos;
     private Usuario usuario;
+    private List<Producto> productos;
 
     public Carrito(Usuario usuario) {
         this.usuario = usuario;
@@ -19,22 +19,14 @@ public class Carrito {
     }
 
     public double calcularTotal() {
-        return productos.stream().mapToDouble(Producto::getPrecio).sum();
-    }
-
-    public void vaciarCarrito() {
-        productos.clear();
+        double total = 0.0;
+        for (Producto producto : productos) {
+            total += producto.getPrecio();
+        }
+        return total;
     }
 
     public void realizarPedido() {
-        if (!productos.isEmpty()) {
-            System.out.println("Pedido realizado por " + usuario.getUsername() +
-                    ". Total: $" + calcularTotal());
-            vaciarCarrito();
-        } else {
-            System.out.println("Error: El carrito está vacío.");
-        }
+        // Lógica para realizar el pedido (puedes definir tu propia implementación)
     }
 }
-
-

@@ -1,76 +1,38 @@
-// ListaTienda.java
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListaTienda {
-    private Nodo cabeza;
+    private Connection connection;
 
-    public ListaTienda() {
-        this.cabeza = null;
-        // Agregar algunos productos de ejemplo
-        agregarProducto(new Producto("Camiseta", 19.99, "Camiseta de algodón", "Ropa"));
-        agregarProducto(new Producto("Zapatos Deportivos", 49.99, "Zapatos para correr", "Zapatos"));
-        agregarProducto(new Producto("Gorra", 14.99, "Gorra con logo", "Accesorios"));
-    }
-
-    public void agregarProducto(Producto producto) {
-        Nodo nuevoNodo = new Nodo(producto);
-        if (cabeza == null) {
-            cabeza = nuevoNodo;
-        } else {
-            Nodo actual = cabeza;
-            while (actual.getSiguiente() != null) {
-                actual = actual.getSiguiente();
-            }
-            actual.setSiguiente(nuevoNodo);
-        }
+    public ListaTienda(Connection connection) {
+        this.connection = connection;
     }
 
     public List<String> obtenerListaProductos() {
-    List<String> listaProductos = new ArrayList<>();
-    Nodo actual = cabeza;
-    while (actual != null) {
-        listaProductos.add(actual.getProducto().getNombre());  
-        actual = actual.getSiguiente();
-    }
-    return listaProductos;
-}
+        List<String> listaProductos = new ArrayList<>();
 
-
-
-    public Producto obtenerProductoPorNombre(String nombre) {
-        Nodo actual = cabeza;
-        while (actual != null) {
-            if (actual.getProducto().getNombre().equals(nombre)) {
-                return actual.getProducto();
+        try {
+            String query = "SELECT nombre FROM productos";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    listaProductos.add(resultSet.getString("nombre"));
+                }
             }
-            actual = actual.getSiguiente();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null; // Producto no encontrado
+
+        return listaProductos;
     }
-    
 
     // Otros métodos según sea necesario
-    public void eliminarProductos(List<Producto> productosAEliminar) {
-        for (Producto producto : productosAEliminar) {
-            Nodo actual = cabeza;
-            Nodo anterior = null;
 
-            while (actual != null) {
-                if (actual.getProducto().equals(producto)) {
-                    if (anterior == null) {
-                        cabeza = actual.getSiguiente();
-                    } else {
-                        anterior.setSiguiente(actual.getSiguiente());
-                    }
-                    break;
-                }
-
-                anterior = actual;
-                actual = actual.getSiguiente();
-            }
-        }
-        
+    Producto obtenerProductoPorNombre(String selectedProductName) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
 }

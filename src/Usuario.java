@@ -1,29 +1,35 @@
-// Usuario.java
 public class Usuario {
     private String username;
     private String password;
-    private Rol rol;
+    private String rol;
 
-    public Usuario(String username, String password, Rol rol) {
-        this.username = username;
-        this.password = password;
-        this.rol = rol;
+    Usuario(String username, String password, String rol) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    // Constructor, getters y setters...
 
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public Rol getRol() {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRol() {
         return rol;
     }
 
-    // Otros getters y setters según sea necesario
-    public boolean verificarContrasena(String contrasena) {
-        return this.password.equals(contrasena);
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }
